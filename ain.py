@@ -2,25 +2,6 @@ from PIL import Image, ImageFilter
 from array import array
 import numpy as np
 
-counter = 1
-
-
-
-
-''''
-try:
-    # Load an image from the hard drive
-    original = Image.open("9.png")
-
-    blurred = original.filter(ImageFilter.BLUR)     # Blur the image
-
-    blurred.save("no.png")     # save the new image
-
-
-
-except:
-    print ("Unable to load image")
-    '''
 #response = input("How many pictures are there?\n")
 
 im1 = Image.open("1.png") 
@@ -33,9 +14,6 @@ im7 = Image.open("7.png")
 im8 = Image.open("8.png")
 im9 = Image.open("9.png")
 
-#while(counter <= 10):
-    
-
 pix1 = im1.load()
 pix2 = im2.load()
 pix3 = im3.load()
@@ -45,6 +23,52 @@ pix6 = im6.load()
 pix7 = im7.load()
 pix8 = im8.load()
 pix9 = im9.load()
+
+xaz = 190 #Must keep changing 
+yaz = 190 #Must keep changing
+
+counter = 1
+
+gashim = 0
+
+hujye = []
+cerdye = []
+suitye = []
+
+
+
+tatsunom = [pix1[xaz, yaz], pix2[xaz, yaz], pix3[xaz, yaz], pix4[xaz, yaz], pix5[xaz, yaz], pix6[xaz, yaz], pix7[xaz, yaz], pix8[xaz, yaz], pix9[xaz, yaz], ]
+
+while(gashim < 9):
+    hujye.append(tatsunom[gashim][0])
+    cerdye.append(tatsunom[gashim][1])
+    suitye.append(tatsunom[gashim][2])
+    gashim = gashim + 1
+    
+print ("Tutom")
+print (tatsunom)
+print ("Saishi")
+print (tatsunom[1][0])
+
+print "Hujye"
+red = (sorted(hujye))
+print "Cerdye"
+green = (sorted(cerdye))
+print "Suitye"
+blue = (sorted(suitye))
+rojo =  red[4]
+verde = green[4]
+azul = blue[4]
+
+testo = Image.new("RGB", (128, 128))
+testopix = testo.load()
+
+for x in range(128):
+    for y in range(128):
+        testopix[x,y] = (rojo, verde, azul)
+
+testo.save("testo.png", "PNG")
+
 
 agrio1 = (im1.size) 
 agrio2 = (im2.size)
@@ -59,27 +83,21 @@ fizo =  (min(fazo))
 tutom = []
 tutom.append(loyetude1[0]);
 tutom.append(loyetude2[0]);
-print (tutom[0])
+print (hizo)
+print (fizo)
+
 xi = 0
 yi = 0
-
-im = Image.new("RGB", (hizo, fizo))
-pix = im.load()
-for x in range(hizo):
-    for y in range(fizo):
-        pix[x,y] = (255, 20, 147)
-
-im.save("test.png")
-
+nu = 0
 
 chatsu = []
 
-while (xi < 495):
+'''
+while (xi < 495 and yi < 557):
     print (pix1[xi,yi])
     #chatsu.append(pix1[xi, 0])
     xi = xi+ 1
     if(xi >= 495):
         xi = 0
         yi = yi + 1
-    #Get the RGBA Value of the a pixel of an image
-#im9.save("kaji.png")
+'''
