@@ -1,103 +1,96 @@
+##  Conrado Aguilar
+##  CST 205 -- Section 2
+##  Project 1
+
 from PIL import Image, ImageFilter
 from array import array
 import numpy as np
+import os
 
-#response = input("How many pictures are there?\n")
+count = 0
 
-im1 = Image.open("1.png") 
-im2 = Image.open("2.png")
-im3 = Image.open("3.png")
-im4 = Image.open("4.png") 
-im5 = Image.open("5.png")
-im6 = Image.open("6.png") 
-im7 = Image.open("7.png")
-im8 = Image.open("8.png")
-im9 = Image.open("9.png")
-
-pix1 = im1.load()
-pix2 = im2.load()
-pix3 = im3.load()
-pix4 = im4.load()
-pix5 = im5.load()
-pix6 = im6.load()
-pix7 = im7.load()
-pix8 = im8.load()
-pix9 = im9.load()
-
-xaz = 190 #Must keep changing 
-yaz = 190 #Must keep changing
-
-counter = 1
-
-gashim = 0
-
-hujye = []
-cerdye = []
-suitye = []
-
-
-
-tatsunom = [pix1[xaz, yaz], pix2[xaz, yaz], pix3[xaz, yaz], pix4[xaz, yaz], pix5[xaz, yaz], pix6[xaz, yaz], pix7[xaz, yaz], pix8[xaz, yaz], pix9[xaz, yaz], ]
-
-while(gashim < 9):
-    hujye.append(tatsunom[gashim][0])
-    cerdye.append(tatsunom[gashim][1])
-    suitye.append(tatsunom[gashim][2])
-    gashim = gashim + 1
+def fcount(path):
+    count = 0
+    for f in os.listdir(path):
+        if os.path.isfile(os.path.join(path, f)):
+            count = count + 1
+    return count
     
-print ("Tutom")
-print (tatsunom)
-print ("Saishi")
-print (tatsunom[1][0])
+path = "./Project1Images"
+hiso = fcount(path)
 
-print "Hujye"
-red = (sorted(hujye))
-print "Cerdye"
-green = (sorted(cerdye))
-print "Suitye"
-blue = (sorted(suitye))
-rojo =  red[4]
-verde = green[4]
-azul = blue[4]
+'''Initialization of Arrays and Variables'''
+imgList = []                     ##list for images
+dim = []                         ##list for size of images
+varsx = []                       ##Empty for x
+varsy = []                       ##Empty for y
+red = 0                          ##RGB Red
+green = 0                        ##RGB Green
+blue = 0                         ##RGB Blue
 
-testo = Image.new("RGB", (128, 128))
+for i in range(hiso):               ##Loading all 9 images 
+    imgList.append(Image.open("Project1Images/" + str(i+1) + ".png"))
+    
+'''Finding size of all 9 images'''
+for i in range(hiso):            
+    dim.append(imgList[i].size)  ##Creating array of the sizes
+    
+'''Splitting the x and y axis'''
+for i in range(hiso):           
+    varsx.append(dim[i][0])      ##
+    varsy.append(dim[i][1])      ##
+minsox = ((sorted(varsx))[0])    ##Array for x values; Already chosen smallest value ------
+minsoy = ((sorted(varsy))[0])    ##Array for y values; Already chosen smallest value ------
+
+'''Proper median for odd and even integers'''
+med = 0
+if (hiso%2 == 1):
+    med = int((hiso-1)/2)
+else:
+    med = int((hiso/2))
+
+'''Creation of new image'''
+testo = Image.new("RGB", (minsox, minsoy))##__##__## Creation of the merged image
 testopix = testo.load()
 
-for x in range(128):
-    for y in range(128):
-        testopix[x,y] = (rojo, verde, azul)
+'''Commencement of new picture'''
+for x in range(minsox):
+    for y in range(minsoy):
+        vori = []  
+        versi = []
+    ##Loading pixels
+        for i in range(hiso):
+            vori.append(imgList[i - 1].load())
 
-testo.save("testo.png", "PNG")
+        for i in range(hiso):               ##Spliting colors
+            versi = (vori[i - 1][x,y])
 
 
-agrio1 = (im1.size) 
-agrio2 = (im2.size)
+        hujye = []
+        cerdye = []
+        suitye = []
+        test = []
 
-loyetude1 = (agrio1) #hanotso vem fazotso
-loyetude2 = (agrio2)
-hano = loyetude1[0], loyetude2[0]
-fazo = loyetude1[1], loyetude2[1]
-hizo =  (min(hano))
-fizo =  (min(fazo))
+        for i in range(hiso):              
+            test.append(vori[i-1][x,y]) ##9 pictures; same coordinates
+            hujye.append(test[i][0])    ##Red
+            cerdye.append(test[i][1])   ##Green
+            suitye.append(test[i][2])   ##Blue
+##Sorting
+            hujye = sorted(hujye)       ##Red 
+            cerdye = sorted(cerdye)     ##Green
+            suitye = sorted(suitye)     ##Blue
 
-tutom = []
-tutom.append(loyetude1[0]);
-tutom.append(loyetude2[0]);
-print (hizo)
-print (fizo)
+        if(hiso%2 == 1):
+            red = hujye[med]                                  ##Finds median of Red; Odd number of pictures
+            green = cerdye[med]                               ##Finds median of Green; Odd number of pictures
+            blue = suitye[med]                                ##Finds median of Blue; Odd number of pictures
+        else:
+            red = int((hujye[med-1] + hujye [med])/2)         ##Finds median of Red; Even number of pictures
+            green = int((cerdye[med-1] + cerdye [med])/2)     ##Finds median of Green; Even number of pictures
+            blue = int((suitye[med-1] + suitye [med])/2)      ##Finds median of Blue; Even number of pictures
+        
+        testopix[x,y] = (red, green, blue)                    ##Giving RGB values to pixels
 
-xi = 0
-yi = 0
-nu = 0
-
-chatsu = []
-
-'''
-while (xi < 495 and yi < 557):
-    print (pix1[xi,yi])
-    #chatsu.append(pix1[xi, 0])
-    xi = xi+ 1
-    if(xi >= 495):
-        xi = 0
-        yi = yi + 1
-'''
+testo.save("testo.png", "PNG") #Saves the image
+print ("Done!")                ##Is finished
