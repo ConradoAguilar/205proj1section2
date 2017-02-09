@@ -7,17 +7,10 @@
 from PIL import Image, ImageFilter
 from array import array
 import numpy as np
-import os
 
-def imgcount(path):                               ##New function for counting files
-    count = 0
-    for f in os.listdir(path):                    ##
-        if os.path.isfile(os.path.join(path, f)): ##
-            count = count + 1                     ##
-    return count                                  ##
-    
-path = "./Project1Images"
-numpic = imgcount(path)
+'''Number of pictures and median'''
+numpic = 9
+med = 4
 
 '''Initialization of Arrays and Variables'''
 imgList = []                     ##list for images
@@ -43,13 +36,6 @@ for i in range(numpic):
 minsox = ((sorted(varsx))[0])     ##Array for x values; Already chosen smallest value ------
 minsoy = ((sorted(varsy))[0])     ##Array for y values; Already chosen smallest value ------
 
-'''Proper median for odd and even integers'''
-med = 0
-if (numpic%2 == 1):
-    med = int((numpic-1)/2)
-else:
-    med = int((numpic/2))
-
 '''Creation of new image'''
 finalimg = Image.new("RGB", (minsox, minsoy)) ##__##__## Creation of the new image
 finalimgpix = finalimg.load()
@@ -66,7 +52,6 @@ for x in range(minsox):
         for i in range(numpic):               
             versi = (vori[i - 1][x,y])         ##Loads RGB for specific pixel
 
-
         rojo = []      ##Arary for Red RGB
         verde = []     ##Array for Green RGB
         azul = []      ##Array for Blue RGB
@@ -78,20 +63,16 @@ for x in range(minsox):
             verde.append(test[i][1])    ##Green
             azul.append(test[i][2])     ##Blue
 ##Sorting
-            rojo = sorted(rojo)       ##Red 
-            verde = sorted(verde)     ##Green
-            azul = sorted(azul)       ##Blue
+        rojo = sorted(rojo)       ##Red 
+        verde = sorted(verde)     ##Green
+        azul = sorted(azul)       ##Blue
 
-        if(numpic%2 == 1):
-            red = rojo[med]                                  ##Finds median of Red; Odd number of pictures
-            green = verde[med]                               ##Finds median of Green; Odd number of pictures
-            blue = azul[med]                                ##Finds median of Blue; Odd number of pictures
-        else:
-            red = int((rojo[med-1] + rojo [med])/2)         ##Finds median of Red; Even number of pictures
-            green = int((verde[med-1] + verde [med])/2)     ##Finds median of Green; Even number of pictures
-            blue = int((azul[med-1] + azul [med])/2)      ##Finds median of Blue; Even number of pictures
+
+        red = rojo[med]                                  ##Finds median of Red; Odd number of pictures
+        green = verde[med]                               ##Finds median of Green; Odd number of pictures
+        blue = azul[med]                                 ##Finds median of Blue; Odd number of pictures
         
         finalimgpix[x,y] = (red, green, blue)                    ##Giving RGB values to pixels
 
-finalimg.save("FinishedPicture.png", "PNG") #Saves the image
-print ("Done!")                ##Is finished
+finalimg.save("FinishedPicture.png", "PNG") ##Saves the image
+print ("Done!")                             ##Is finished
